@@ -4,4 +4,4 @@ function ControlInterceptor(objCollection) {
     new Controller(objCollection);
 }
 
-module.exports = ControlInterceptor;
+module.exports = ControlInterceptor;        

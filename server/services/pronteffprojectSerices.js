@@ -9,15 +9,15 @@ function Services() {
         let responseData = [],
             error = true;
         let paramsArr = new Array(
-            request.Name,
             request.Email,
+            request.Name,
             request.Password
         );
         let queryString = util.getQueryString('pf_v1_user_registration_status', paramsArr);
         if (queryString != '') {
             await db.executeQueryPromise(queryString, request)
                 .then(async (data) => {
-                    responseData = data;
+                    responseData = request;
                     error = false;
                 })
                 .catch((err) => {
@@ -26,14 +26,37 @@ function Services() {
         }
         return [error, responseData];
     };
-    this.getUsers = async function (request) {
+    this.getSingleUsers = async function (request) {
+        let responseData,
+            error = true;
+        let paramsArr = new Array(
+            request.id
+        );
+        console.log(paramsArr, 'para');
+        let queryString = util.getQueryString('pf_v1_get_single_user', paramsArr);
+        console.log(queryString)
+        if (queryString != '') {
+            await db.executeQueryPromise(queryString, request)
+                .then(async (data) => {
+                    responseData = data;
+                    console.log(data)
+                    error = false;
+                })
+                .catch((err) => {
+                    error = err;
+                    console.log(error);
+                })
+        }
+        return [error, responseData];
+    };
+    this.deleteSingleUser = async function (request) {
         let responseData = [],
             error = true;
         let paramsArr = new Array(
-            request.organization
+            request.id
         );
         console.log(paramsArr, 'para');
-        let queryString = util.getQueryString('pf_v1_get_all_users', paramsArr);
+        let queryString = util.getQueryString('pf_v1_delete_user_id', paramsArr);
         console.log(queryString)
         if (queryString != '') {
             await db.executeQueryPromise(queryString, request)
@@ -71,4 +94,4 @@ function Services() {
         return [error, responseData];
     };
 }
-module.exports = Services;
+module.exports = Services; 
